@@ -10,11 +10,7 @@
     border-radius: 10px;
 }
 
-/* Controla la imagen */
-.card-img-top {
-  height: 180px;
-  object-fit: contain;
-}
+
 
 /* Relleno del contenido para distribuir bien */
 .card-body {
@@ -24,4 +20,19 @@
   justify-content: space-between;
   margin-top: 20px;
   text-align: center;
+}
+/* card.css */
+.card-img-top {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button {
+  transition: background-color 0.3s ease;
 }

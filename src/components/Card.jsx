@@ -9,11 +9,12 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
 
   const [buttonText, setButtonText] = useState("Agregar al carrito");
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isAdded, setIsAdded] = useState(false); // Nuevo estado para controlar si el producto está agregado
 
   const handleAddProduct = () => {
-
     if (isDisabled) return;
-  setIsDisabled(true); // ✅ Inmediatamente desactiva el botón
+
+    setIsDisabled(true); // Desactiva el botón inmediatamente
     const product = {
       id: productId,
       title,
@@ -22,10 +23,21 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
       stock,
       quantity: 1,
     };
+
     addToCart(product);
     alert("Añadido al carrito: " + product.id);
     setButtonText("Añadido al carrito");
-    setIsDisabled(true);
+    setIsAdded(true); // Cambia el estado para indicar que el producto fue añadido
+  };
+
+  // Función para obtener el color del botón
+  const getButtonColor = () => {
+    if (isAdded) {
+      return 'gray'; // Color cuando el producto ha sido añadido y el botón está deshabilitado
+    } else if (stock === 0) {
+      return 'red'; // Rojo si el producto no está disponible
+    }
+    return 'blue'; // Color predeterminado (disponible)
   };
 
   return (
@@ -36,10 +48,11 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
         <Card.Text>{text}</Card.Text>
         <Card.Text>Stock: {stock}</Card.Text>
         <Button
-          variant="outline-primary"
+          variant="outline"
           className="w-100"
-          onClick={handleAddProduct} // ✅ corregido
-          disabled={isDisabled}
+          onClick={handleAddProduct} 
+          disabled={isDisabled || stock === 0} // Deshabilita si el producto no está disponible o ya está en el carrito
+          style={{ backgroundColor: getButtonColor(), borderColor: getButtonColor() }} // Cambia el color
         >
           {buttonText}
         </Button>
