@@ -1,5 +1,6 @@
 import { Login } from './components/Login';
 import { HomePage } from './pages/HomePage';
+import { CartPage } from './pages/CartPage';
 import { Routes, Route } from "react-router-dom"; // 👈 NO uses BrowserRouter aquí
 import './App.css';
 
@@ -8,7 +9,12 @@ function App() {
     <Routes>
       <Route path="/home" element={<HomePage />} />
       <Route path="/" element={<Login />} />
-      
+      <Route path="/cart" element={
+          <PrivateRoute>
+            <CartPage />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }
