@@ -35,10 +35,14 @@ const GoogleButton = () => {
   return (
     <button
       onClick={handleGoogleLogin}
-      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-    >
+      className="flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-300 rounded shadow-md px-4 py-2 hover:bg-gray-100">
+      <img
+        src="https://developers.google.com/identity/images/g-logo.png"
+        alt="Google"
+        className="w-5 h-5"/>
       Iniciar sesión con Google
     </button>
+
   );
 };
 
