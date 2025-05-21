@@ -12,7 +12,10 @@ const GoogleButton = () => {
 
       const response = await fetch("https://backphp.onrender.com/loginGoogle.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${idToken}`  // <-- Importante
+  },
         body: JSON.stringify({ idToken }),
       });
 
