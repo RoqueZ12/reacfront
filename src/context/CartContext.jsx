@@ -94,7 +94,9 @@ export const CartProvider = ({ children }) => {
         );
       } else {
         // No existe → agregar nuevo producto con quantity: 1
-        updatedCart = [...cart, { ...product, quantity: 1 }];
+       const { id, title, price, image, stock } = product;
+        updatedCart = [...cart, { id, title, price, image, stock, quantity: 1 }];
+
       }
 
       // Actualizar estado local
