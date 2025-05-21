@@ -113,48 +113,41 @@ export const CartProvider = ({ children }) => {
 
   // FUNCION PARA COMPRAR
 const purchase = async () => {
-    if (!user) {
-        console.error("Usuario no autenticado");
-        return;
+  if (!user) {
+    console.error("Usuario no autenticado");
+    return;
+  }
+
+  try {
+  
+    // se le manda el id del usuario y el carrito 
+    const response = await fetch('https://backphp.onrender.com/compra', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.uid,
+        cart: cart,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setCart([]); // Vaciar carrito en frontend
+      alert("¡Gracias por tu compra!");
+    } else {
+      console.error("Error en la compra:", data.message || "Error desconocido");
+      alert("No se pudo completar la compra: " + (data.message || "Error desconocido"));
     }
-    try {
-      
-        // Actualizar el stock en Firestore
-        const updatedCart = [...cart]; 
 
-        for (let product of updatedCart) {
-            if (product.stock > 0) {
-                // Reducir el stock en la base de datos de cada producto
-                const productRef = doc(db, 'productos', product.id);
-                const productDocSnap = await getDoc(productRef);
-
-                if (productDocSnap.exists()) {
-                    const productData = productDocSnap.data();
-                    const newStock = productData.stock - product.quantity; // Reducir stock según cantidad
-
-                    if (newStock >= 0) {
-                        // Actualizar stock en Firestore
-                        await setDoc(productRef, { stock: newStock }, { merge: true });
-                    } else {
-                        console.warn(`No hay suficiente stock para el producto: ${product.title}`);
-                    }
-                }
-            }
-        }
-
-        // Vaciar el carrito en Firestore
-        const cartRef = doc(db, 'carritos', user.uid);
-        await setDoc(cartRef, { cart: [] }, { merge: true });
-
-        setCart([]); // Vaciar carrito en estado local
-
-        console.log("Compra realizada correctamente");
-        alert("¡Gracias por tu compra!");
-        
-    } catch (error) {
-        console.error("Error en la compra:", error);
-    }
+  } catch (error) {
+    console.error("Error en la compra:", error);
+    alert("Error al realizar la compra. Intenta nuevamente.");
+  }
 };
+
 
   const removeFromCart = async (productId) => {
   const updatedCart = cart.filter(item => item.id !== productId);
