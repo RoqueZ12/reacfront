@@ -10,7 +10,7 @@ const GoogleButton = () => {
       const idToken = await result.user.getIdToken();
 
       // Envía el idToken a tu backend
-        const response = await fetch("https://backphp.onrender.com/loginGoogle", {
+        const response = await fetch("https://backphp.onrender.com/loginGoogle.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
