@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signOut as firebaseSignOut } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"; // 👈 necesario para Firestore
 
 const firebaseConfig = {
@@ -18,4 +18,14 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app); // 👈 inicializas Firestore
 
-export { auth, provider, db }; // 👈 exportas todo lo necesario
+const signOut = async () => {
+  try {
+    await firebaseSignOut(auth);  // Llamamos a signOut de Firebase
+    console.log('Sesión cerrada exitosamente');
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error);
+  }
+};
+
+
+export { auth, provider, db , signOut}; // 👈 exportas todo lo necesario
