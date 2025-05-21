@@ -10,6 +10,7 @@ const GoogleButton = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
+      console.log("ID Token enviado:", idToken);
       const response = await fetch("https://backphp.onrender.com/loginGoogle.php", {
         method: "POST",
         headers: {
@@ -22,12 +23,10 @@ const GoogleButton = () => {
       const data = await response.json();
 
       if (response.ok && data.jwt) {
+        console.log("Respuesta del backend:", data);
         console.log("JWT del backend:", data.jwt);
         localStorage.setItem("jwt", data.jwt);
-        //tomar nombre, email e imagen del localstorage
-        localStorage.setItem("email", data.user.email);
-        localStorage.setItem("name", data.user.displayName);
-        localStorage.setItem("image", data.user.photoURL);
+       
 
         navigate("/home"); // Redirige a la ruta de HomePage
       } else {
