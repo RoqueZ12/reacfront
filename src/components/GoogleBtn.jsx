@@ -10,7 +10,7 @@ const GoogleButton = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      const response = await fetch("https://backphp.onrender.com/logOutGoogle.php", {
+      const response = await fetch("https://backphp.onrender.com/loginGoogle.php", {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
