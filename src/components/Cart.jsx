@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Table } from '@mantine/core';
 import { useCartContext } from '../context/CartContext';
-import '../styles/cartTable.css'; // Asegúrate de que esto está
+import '../styles/cartTable.css';
 
 function Cart() {
   const { cart, fetchCart, increaseQuantity, decreaseQuantity } = useCartContext();
@@ -33,11 +33,11 @@ function Cart() {
   {(cart && Array.isArray(cart) ? cart : []).map((item) => (
     <Table.Tr key={`${item.id}-${item.nombre}`}>
       <Table.Td>{item.title}</Table.Td>
-<Table.Td>
-  <button onClick={() => decreaseQuantity(item.id)}>-</button>
-  <span style={{ margin: '0 8px' }}>{item.quantity}</span>
-  <button onClick={() => increaseQuantity(item.id)}>+</button>
-</Table.Td>
+    <Table.Td>
+      <button onClick={() => decreaseQuantity(item.id)}>-</button>
+      <span style={{ margin: '0 8px' }}>{item.quantity}</span>
+      <button onClick={() => increaseQuantity(item.id)}>+</button>
+    </Table.Td>
 
       <Table.Td>{'S/. ' + Number(item.price).toFixed(2)}</Table.Td>
       <Table.Td>
