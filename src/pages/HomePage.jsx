@@ -13,7 +13,7 @@ const HomePage = () => {
     const image = localStorage.getItem("image") || "";
     setUser({ nombre, email, image });
 
-    fetch("https://apirestphp.onrender.com/productos")
+    fetch("https://backphp.onrender.com/productos/")
       .then((res) => {
         if (!res.ok) throw new Error("Error al cargar productos");
         return res.json();
