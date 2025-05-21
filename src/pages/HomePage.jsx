@@ -5,7 +5,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://apirestphp.onrender.com/products")
+    fetch("https://apirestphp.onrender.com/productos")
       .then((res) => {
         if (!res.ok) throw new Error("Error al cargar productos");
         return res.json();
