@@ -1,11 +1,11 @@
 import { Button } from '@mantine/core';
 import Card from 'react-bootstrap/Card';
-import { useCartContext } from '../context/CartContext';
+// import { useCartContext } from '../context/CartContext';
 import { useState } from 'react';
 import "../styles/card.css";
 
 function Cards({ title, text, imgSrc, productId, stock, price }) {
-  const { addToCart } = useCartContext();
+  // const { addToCart } = useCartContext();
 
   const [buttonText, setButtonText] = useState("Agregar al carrito");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -19,7 +19,7 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
       stock,
       quantity: 1,
     };
-    addToCart(product);
+    // addToCart(product);
     alert("Añadido al carrito: " + product.id);
     setButtonText("Añadido al carrito");
     setIsDisabled(true);
