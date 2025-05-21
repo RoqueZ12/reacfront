@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
+import { Cards} from "../components/Card";
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
