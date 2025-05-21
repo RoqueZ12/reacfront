@@ -121,7 +121,7 @@ const purchase = async () => {
   try {
   
     // se le manda el id del usuario y el carrito 
-    const response = await fetch('https://backphp.onrender.com/compra', {
+    const response = await fetch('https://backphp.onrender.com/compra.php', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
