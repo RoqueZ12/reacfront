@@ -9,7 +9,7 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
 
   const [isInCart, setIsInCart] = useState(false);
 
-  // Verificar si el producto ya está en el carrito cada vez que cart cambia o el productId
+  //se verifica si hay hay producto en el carrito 
   useEffect(() => {
     const productInCart = cart.some(item => item.id === productId);
     setIsInCart(productInCart);
@@ -17,10 +17,10 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
 
   const handleButtonClick = () => {
     if (isInCart) {
-      // Quitar producto
+      // sse quita producto
       removeFromCart(productId);
     } else {
-      // Agregar producto
+      // se agrega producto
       const product = {
         id: productId,
         title,
@@ -36,8 +36,8 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
   // Color del botón según estado
   const getButtonColor = () => {
     if (stock === 0) return 'red'; // Sin stock
-    if (isInCart) return 'gray'; // Producto en carrito (botón para quitar)
-    return 'blue'; // Producto no agregado
+    if (isInCart) return 'gray'; // para quitar producto
+    return 'blue'; // para añadir producto
   };
 
   return (

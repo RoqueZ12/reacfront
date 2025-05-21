@@ -9,7 +9,7 @@ function Cart() {
     fetchCart,
     increaseQuantity,
     decreaseQuantity,
-    removeFromCart, // 👈 AÑADIDO
+    removeFromCart, 
   } = useCartContext();
 
   useEffect(() => {

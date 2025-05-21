@@ -111,22 +111,51 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // FUNCION LIMPIAR CARRITO
-  const clearCart = async () => {
+  // FUNCION PARA COMPRAR
+const purchase = async () => {
+    if (!user) {
+        console.error("Usuario no autenticado");
+        return;
+    }
     try {
-      setCart([]);
       
-      // Limpiar carrito en Firestore (carritos/{user.uid})
-      if (user) {
+        // Actualizar el stock en Firestore
+        const updatedCart = [...cart]; 
+
+        for (let product of updatedCart) {
+            if (product.stock > 0) {
+                // Reducir el stock en la base de datos de cada producto
+                const productRef = doc(db, 'productos', product.id);
+                const productDocSnap = await getDoc(productRef);
+
+                if (productDocSnap.exists()) {
+                    const productData = productDocSnap.data();
+                    const newStock = productData.stock - product.quantity; // Reducir stock según cantidad
+
+                    if (newStock >= 0) {
+                        // Actualizar stock en Firestore
+                        await setDoc(productRef, { stock: newStock }, { merge: true });
+                    } else {
+                        console.warn(`No hay suficiente stock para el producto: ${product.title}`);
+                    }
+                }
+            }
+        }
+
+        // Vaciar el carrito en Firestore
         const cartRef = doc(db, 'carritos', user.uid);
         await setDoc(cartRef, { cart: [] }, { merge: true });
-      }
 
-      console.log("Carrito limpiado correctamente en Firestore");
+        setCart([]); // Vaciar carrito en estado local
+
+        console.log("Compra realizada correctamente");
+        alert("¡Gracias por tu compra!");
+        
     } catch (error) {
-      console.error("Error al limpiar el carrito en Firestore:", error);
+        console.error("Error en la compra:", error);
     }
-  };
+};
+
   const removeFromCart = async (productId) => {
   const updatedCart = cart.filter(item => item.id !== productId);
   setCart(updatedCart);
@@ -154,14 +183,14 @@ const decreaseQuantity = async (productId) => {
         ? { ...item, quantity: item.quantity > 1 ? item.quantity - 1 : 1 }
         : item
     )
-    .filter(item => item.quantity > 0); // opcional: remover si quantity es 0
+    .filter(item => item.quantity > 0); // opcional si la cantidad se puede ser negativa
 
   setCart(updatedCart);
   await updateCartInFirestore(updatedCart);
 };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, fetchCart, clearCart, loading, increaseQuantity, decreaseQuantity, user, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, fetchCart, loading, purchase, increaseQuantity, decreaseQuantity, user, removeFromCart }}>
 
       {children}
     </CartContext.Provider>

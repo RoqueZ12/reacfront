@@ -7,8 +7,12 @@ import { useCartContext } from "../context/CartContext";
 import "../styles/cartpage.css";
 
 function CartPage() {
-  const { cart } = useCartContext();
+  const { cart , purchase} = useCartContext();
   const [user, setUser] = useState(null);
+
+  const handleComprar = async () => {
+    await purchase();
+  };
 
   useEffect(() => {
     const nombre = localStorage.getItem("nombre") || "";
@@ -32,13 +36,15 @@ function CartPage() {
           <Table.Tbody>
             <Table.Tr style={{ textAlign: 'center' }}>
               <Table.Td className="tableCell">Total de la compra</Table.Td>
-            
               <Table.Td className="tableCell">
                 <div className="actionsContainer">
                  {Array.isArray(cart) && (
+                  <>
                   <div className="cart-total">
                     Total: S/. {sumarPrecios(cart).toFixed(2)}
                   </div>
+                  <button className="buyButton" onClick={handleComprar}>Comprar</button>
+                  </>
                 )}
 
                 </div>
