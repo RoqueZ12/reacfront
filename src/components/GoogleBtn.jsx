@@ -21,6 +21,10 @@ const GoogleButton = () => {
       if (response.ok && data.jwt) {
         console.log("JWT del backend:", data.jwt);
         localStorage.setItem("jwt", data.jwt);
+        //tomar nombre, email e imagen del localstorage
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("image", data.image);
         navigate("/home"); // Redirige a la ruta de HomePage
       } else {
         console.error("Error del backend:", data.error || "Respuesta inválida");

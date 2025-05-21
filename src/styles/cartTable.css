@@ -1,0 +1,71 @@
+@media screen and (max-width: 768px) {
+  .responsive-table td {
+    display: block; 
+    box-sizing: border-box; 
+    width: 100%; 
+    padding: 10px; 
+  }
+  .responsive-table th {
+    display: none;
+  }
+  .actionsContainer {
+    display: flex; 
+    justify-content: space-between; 
+  }
+}
+
+/* cartTable.css */
+
+/* Contenedor general de la tabla del carrito */
+.cart-table-container {
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* Cabeceras */
+.mantine-Table-th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Celdas */
+.mantine-Table-td {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.92rem;
+}
+
+/* Total de precio */
+.mantine-Table-td:last-child {
+  font-weight: 500;
+}
+
+/* Acciones (botones, íconos) */
+.cart-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.mantine-Table-table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.cart-actions button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #ef5350;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.cart-actions button:hover {
+  background-color: #d32f2f;
+}
