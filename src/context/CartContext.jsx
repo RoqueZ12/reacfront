@@ -127,6 +127,12 @@ export const CartProvider = ({ children }) => {
       console.error("Error al limpiar el carrito en Firestore:", error);
     }
   };
+  const removeFromCart = async (productId) => {
+  const updatedCart = cart.filter(item => item.id !== productId);
+  setCart(updatedCart);
+  await updateCartInFirestore(updatedCart);
+};
+
 const updateCartInFirestore = async (updatedCart) => {
   if (!user) return;
   const cartRef = doc(db, 'carritos', user.uid);
@@ -155,7 +161,7 @@ const decreaseQuantity = async (productId) => {
 };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, fetchCart, clearCart, loading, increaseQuantity, decreaseQuantity, user }}>
+    <CartContext.Provider value={{ cart, addToCart, fetchCart, clearCart, loading, increaseQuantity, decreaseQuantity, user, removeFromCart }}>
 
       {children}
     </CartContext.Provider>

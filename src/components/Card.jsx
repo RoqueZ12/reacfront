@@ -1,43 +1,43 @@
 import { Button } from '@mantine/core';
 import Card from 'react-bootstrap/Card';
 import { useCartContext } from '../context/CartContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "../styles/card.css";
 
 function Cards({ title, text, imgSrc, productId, stock, price }) {
-  const { addToCart } = useCartContext();
+  const { cart, addToCart, removeFromCart } = useCartContext();
 
-  const [buttonText, setButtonText] = useState("Agregar al carrito");
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [isAdded, setIsAdded] = useState(false); // Nuevo estado para controlar si el producto está agregado
+  const [isInCart, setIsInCart] = useState(false);
 
-  const handleAddProduct = () => {
-    if (isDisabled) return;
+  // Verificar si el producto ya está en el carrito cada vez que cart cambia o el productId
+  useEffect(() => {
+    const productInCart = cart.some(item => item.id === productId);
+    setIsInCart(productInCart);
+  }, [cart, productId]);
 
-    setIsDisabled(true); // Desactiva el botón inmediatamente
-    const product = {
-      id: productId,
-      title,
-      price,
-      image: imgSrc,
-      stock,
-      quantity: 1,
-    };
-
-    addToCart(product);
-    alert("Añadido al carrito: " + product.id);
-    setButtonText("Añadido al carrito");
-    setIsAdded(true); // Cambia el estado para indicar que el producto fue añadido
+  const handleButtonClick = () => {
+    if (isInCart) {
+      // Quitar producto
+      removeFromCart(productId);
+    } else {
+      // Agregar producto
+      const product = {
+        id: productId,
+        title,
+        price,
+        image: imgSrc,
+        stock,
+        quantity: 1,
+      };
+      addToCart(product);
+    }
   };
 
-  // Función para obtener el color del botón
+  // Color del botón según estado
   const getButtonColor = () => {
-    if (isAdded) {
-      return 'gray'; // Color cuando el producto ha sido añadido y el botón está deshabilitado
-    } else if (stock === 0) {
-      return 'red'; // Rojo si el producto no está disponible
-    }
-    return 'blue'; // Color predeterminado (disponible)
+    if (stock === 0) return 'red'; // Sin stock
+    if (isInCart) return 'gray'; // Producto en carrito (botón para quitar)
+    return 'blue'; // Producto no agregado
   };
 
   return (
@@ -50,11 +50,11 @@ function Cards({ title, text, imgSrc, productId, stock, price }) {
         <Button
           variant="outline"
           className="w-100"
-          onClick={handleAddProduct} 
-          disabled={isDisabled || stock === 0} // Deshabilita si el producto no está disponible o ya está en el carrito
-          style={{ backgroundColor: getButtonColor(), borderColor: getButtonColor() }} // Cambia el color
+          onClick={handleButtonClick}
+          disabled={stock === 0} // Solo deshabilitar si no hay stock
+          style={{ backgroundColor: getButtonColor(), borderColor: getButtonColor(), color: 'white' }}
         >
-          {buttonText}
+          {isInCart ? 'Quitar del carrito' : 'Agregar al carrito'}
         </Button>
       </Card.Body>
     </Card>

@@ -4,7 +4,13 @@ import { useCartContext } from '../context/CartContext';
 import '../styles/cartTable.css';
 
 function Cart() {
-  const { cart, fetchCart, increaseQuantity, decreaseQuantity } = useCartContext();
+  const {
+    cart,
+    fetchCart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromCart, // 👈 AÑADIDO
+  } = useCartContext();
 
   useEffect(() => {
     fetchCart();
@@ -30,31 +36,33 @@ function Cart() {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-  {(cart && Array.isArray(cart) ? cart : []).map((item) => (
-    <Table.Tr key={`${item.id}-${item.nombre}`}>
-      <Table.Td>{item.title}</Table.Td>
-    <Table.Td>
-      <button onClick={() => decreaseQuantity(item.id)}>-</button>
-      <span style={{ margin: '0 8px' }}>{item.quantity}</span>
-      <button onClick={() => increaseQuantity(item.id)}>+</button>
-    </Table.Td>
-
-      <Table.Td>{'S/. ' + Number(item.price).toFixed(2)}</Table.Td>
-      <Table.Td>
-        {'S/. ' + (item.quantity * item.price).toFixed(2)}
-      </Table.Td>
-      <Table.Td>
-        <img src={item.image} alt={item.image} style={{ width: '50px', height: '50px' }} />
-      </Table.Td>
-      <Table.Td>
-        <div className="cart-actions">
-          <button>Eliminar</button>
-        </div>
-      </Table.Td>
-    </Table.Tr>
-  ))}
-</Table.Tbody>
-
+          {(cart && Array.isArray(cart) ? cart : []).map((item) => (
+            <Table.Tr key={`${item.id}-${item.title}`}>
+              <Table.Td>{item.title}</Table.Td>
+              <Table.Td>
+                <button onClick={() => decreaseQuantity(item.id)}>-</button>
+                <span style={{ margin: '0 8px' }}>{item.quantity}</span>
+                <button onClick={() => increaseQuantity(item.id)}>+</button>
+              </Table.Td>
+              <Table.Td>{'S/. ' + Number(item.price).toFixed(2)}</Table.Td>
+              <Table.Td>{'S/. ' + (item.quantity * item.price).toFixed(2)}</Table.Td>
+              <Table.Td>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  style={{ width: '50px', height: '50px' }}
+                />
+              </Table.Td>
+              <Table.Td>
+                <div className="cart-actions">
+                  <button onClick={() => removeFromCart(item.id)}>
+                    Eliminar
+                  </button>
+                </div>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
       </Table>
     </div>
   );
